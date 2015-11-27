@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema 
+  targetNamespace="https://github.com/thomaslaurenson/apxml_schema" 
+  xmlns:mstns="https://github.com/thomaslaurenson/apxml_schema" 
+  xmlns="https://github.com/thomaslaurenson/apxml_schema" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" 
+  attributeFormDefault="qualified" 
+  elementFormDefault="qualified" 
+  xmlns:delta="http://www.forensicswiki.org/wiki/Forensic_Disk_Differencing" 
+  xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+  <xs:annotation>
+    <xs:documentation>
+      This is the schema file for Application Profile XML (APXML), version 1.0.0.
+
+      If you intend to use this file as a APXML document validator, note that you will also need to download two accompanying .xsd files under the "ref" directory.  The easiest way to do this is by downloading the repository as a Git clone, or by downloading the zip archive from the Github page.
+
+      To report issues, questions, or feature requests, please either:
+
+      * File a Github issue at this repository, seeing first if it is already filed: https://github.com/thomaslaurenson/apxml_schema
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:import namespace="http://purl.org/dc/elements/1.1/" schemaLocation="ref/dc.xsd">
+    <xs:annotation>
+      <xs:documentation>
+        (A technical aside.)  The Dublin Core and XML metadata schema needs to be imported to validate with the 'xmllint' utility.  To save on validation-step network transmissions, a copy is included alongside this schema, modified to also fetch the XML Schema .xsd file locally.
+        Ref: https://mail.gnome.org/archives/xml/2009-November/msg00022.html
+      </xs:documentation>
+    </xs:annotation>
+  </xs:import>
+
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="ref/xml.xsd">
+    <xs:annotation>
+      <xs:documentation>
+        The schema of XML is itself imported into this document because XML schema imports are not transitive.  This allows usage of special XML attributes, such as xml:lang.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:import>
+
+  <xs:import namespace="http://www.forensicswiki.org/wiki/Forensic_Disk_Differencing" schemaLocation="ref/delta.xsd">
+    <xs:annotation>
+      <xs:documentation>
+        The Forensic Disk Differencing and XML metadata schema needs to be imported to validate with the 'xmllint' utility.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:import>
+
+  <!-- Application Profile XML (APXML) element schema -->
+  <xs:element name="apxml">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="metadata" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="dc:type" minOccurs="0" />
+              <xs:element ref="dc:publisher" minOccurs="0" />
+              <xs:element name="app_name" type="xs:string" minOccurs="0" />
+              <xs:element name="app_version" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="creator" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="program" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+              <xs:element name="execution_environment" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="windows_version" type="xs:string" minOccurs="0" />
+                    <xs:element name="command_line" type="xs:string" minOccurs="0" />
+                    <xs:element name="start_date" type="xs:string" minOccurs="0" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="version" form="unqualified" type="xs:string" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="install" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="fileobject" minOccurs="0" maxOccurs="unbounded" />
+              <xs:element ref="cellobject" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="open" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="fileobject" minOccurs="0" maxOccurs="unbounded" />
+              <xs:element ref="cellobject" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="close" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="fileobject" minOccurs="0" maxOccurs="unbounded" />
+              <xs:element ref="cellobject" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="uninstall" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="fileobject" minOccurs="0" maxOccurs="unbounded" />
+              <xs:element ref="cellobject" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="reboot" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="fileobject" minOccurs="0" maxOccurs="unbounded" />
+              <xs:element ref="cellobject" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="rusage" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="end_date" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="version" form="unqualified" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+
+  <!-- FileObject element with only specific metadata properties -->
+  <xs:element name="fileobject">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="filename" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+        <xs:element name="filesize" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+        <xs:element name="meta_type" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+        <xs:element name="alloc_name" type="xs:string" minOccurs="0" msdata:Ordinal="3" />
+        <xs:element name="alloc_inode" type="xs:string" minOccurs="0" msdata:Ordinal="4" />
+        <xs:element name="hashdigest" nillable="true" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:simpleContent msdata:ColumnName="hashdigest_Text" msdata:Ordinal="1">
+              <xs:extension base="xs:string">
+                <xs:attribute name="type" form="unqualified" type="xs:string" />
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute ref="delta:new_file" />
+      <xs:attribute ref="delta:changed_file" />
+      <xs:attribute ref="delta:deleted_file" />
+    </xs:complexType>
+  </xs:element>
+
+  <!-- CellObject element with only specific metadata properties -->
+  <xs:element name="cellobject">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="cellpath" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+        <xs:element name="basename" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+        <xs:element name="name_type" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+        <xs:element name="data_type" type="xs:string" minOccurs="0" msdata:Ordinal="3" />
+        <xs:element name="data" type="xs:string" minOccurs="0" msdata:Ordinal="4" />
+        <xs:element name="alloc" type="xs:string" minOccurs="0" msdata:Ordinal="5" />
+        <xs:element name="raw_data" type="xs:string" minOccurs="0" msdata:Ordinal="6" />
+      </xs:sequence>
+      <xs:attribute ref="delta:new_cell" />
+      <xs:attribute ref="delta:changed_cell" />
+      <xs:attribute ref="delta:deleted_cell" />
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
